@@ -2,6 +2,11 @@ const express = require('express')
 const app = express()
 const session = require('express-session')
 
+const fs = require('fs')
+
+
+app.use( express.json() )
+
 app.use(session({
     secret: "thisisweakkey", //key for encrypting cookies
     cookie: {},
