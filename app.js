@@ -9,11 +9,17 @@ app.get('/Hello', (req, res) => {
     res.send("Hello world")
 })
 
-app.get('/insults/:severity', async (req, res) => {
-    res.set("Content-Type", "application/json")
-    let result = await insults.find({ severity: parseInt(req.params.severity) }, function (err, docs) {
-        res.json({"insults": result})
+app.get('/insults/:severity', (req, res) => {
+    insults.find({ severity: parseInt(req.params.severity) }, function (err, docs) {
+        res.json({"insults": docs})
+
+        if(docs.length == 0) {
+            res.status(404)
+        }else{
+            res.json(docs)
+        }
     });
 })
+//ska konverteras till async/await
 
 app.listen(8080, () => console.log("Server started"))
