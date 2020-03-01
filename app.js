@@ -18,14 +18,13 @@ app.get('/insults', async (reg, res) => {
 })
 
 app.get('/insults/:severity', async (req, res) => {
-    const docs = await insults.find({ severity: parseInt(req.params.severity)}) 
+    const severity = await insults.find({severity: parseInt(req.params.severity)})
 
-        if(docs.length == 0) {
-            res.status(404)
-            res.json({error:'not found'})
-        }else{
-            res.json(docs)    
-        }
-    });
+    if(severity.length > 0) {
+        res.json({"severity": severity})
+    }else{
+        res.status(404).json("error")
+    }
+})
 
 app.listen(8090, () => console.log("Server started"))
